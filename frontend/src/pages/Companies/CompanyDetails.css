@@ -1,0 +1,25 @@
+.CompanyDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-family:'Roboto', sans-serif;
+}
+
+.CompanyDetails-header {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    
+}
+
+.CompanyDetails-description {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}

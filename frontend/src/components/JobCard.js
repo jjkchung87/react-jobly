@@ -1,43 +1,52 @@
 import React, {useContext, useState, useEffect} from 'react'
 import UserContext from '../context/UserContext'
 import JoblyApi from '../api'
+import './JobCard.css'
+import {Button, Grid, Container} from 'semantic-ui-react'
 
 const JobCard = ({id, title, salary, equity, companyHandle}) => {
 
-    const {currentUser, updateCurrentUser } = useContext(UserContext) // {username, firstName, lastName, email, isAdmin, applications}
-    const {applications, username} = currentUser 
-    const [applied, setApplied] = useState(applications.some(job => job === id)) // true if user has applied for this job
+    const {hasAppliedToJob, applyToJob } = useContext(UserContext)
+    const [applied, setApplied] = useState(false) // current state of whether user has applied for this job
 
   /******************************************************************************************************
-    Update applied state when applications changes    
+    Set if job has been applied to
   *******************************************************************************************************/
 
     useEffect(()=> {
-        setApplied(applications.some(job => job === id))
-    }, [applications])
+        setApplied(hasAppliedToJob(id))
+    }, [id, hasAppliedToJob])
 
   /******************************************************************************************************
     Handle applying for a job
   *******************************************************************************************************/
     
     const handleClick = async () => {
-        const res = await JoblyApi.applyForJob(username, id)
-        updateCurrentUser(res)
-        setApplied(true)
+      if (hasAppliedToJob(id)) return;
+      applyToJob(id);
+      setApplied(true);
     }
 
     return (
-        <div className="JobCard">
-            <div>{title}</div>
-            <div>{companyHandle}</div>
-            <div>salary: {salary}</div>
-            <div>equity: {equity}</div>
-            { applied ? 
-                <button disabled>APPLIED</button>
-                :
-                <button onClick={handleClick}>APPLY</button>
-            }
-        </div>
+          <Container className="JobCard"> 
+          <Grid >
+            <Grid.Row columns={2}>
+                  <Grid.Column width={12} className="JobCard-text">
+                      <div className="JobCard-title">{title}</div>
+                      <div className="JobCard-handle">{companyHandle}</div>
+                      <div className="JobCard-salary">Salary: {salary}</div>
+                      <div className="JobCard-equity">Equity: {equity}</div>
+                  </Grid.Column>
+                  <Grid.Column width={4} textAlign="right" verticalAlign="middle" className="JobCard-button">
+                      {applied ? (
+                          <Button disabled>APPLIED</Button>
+                      ) : (
+                          <Button primary onClick={handleClick}>APPLY</Button>
+                      )}
+                  </Grid.Column>
+              </Grid.Row>
+          </Grid>
+          </Container>
     )
 
 }

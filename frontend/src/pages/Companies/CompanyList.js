@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-
-
 import JoblyApi from "../../api";
 import SearchForm from '../../components/SearchForm';
 import CompanyCard from "./CompanyCard";
+import { Container } from 'semantic-ui-react';
+import './CompanyList.css';
 
 const CompanyList = () => {
     const [companies, setCompanies] = useState([]);
@@ -59,6 +59,7 @@ const CompanyList = () => {
     return (
         <div className="CompanyList">
             <SearchForm filter={filterCompanies} type="company"/>
+            <Container className="CompanyList-container">
             {isLoading ? <p>Loading &hellip;</p> : (
                 companies.map(company => (
                     <CompanyCard
@@ -70,6 +71,7 @@ const CompanyList = () => {
                     />
                 ))
             )}
+            </Container>
         </div>  
     );
 };

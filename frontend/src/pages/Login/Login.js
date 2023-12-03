@@ -2,6 +2,8 @@ import React, {useEffect, useContext} from 'react';
 import useFields from '../../hooks/useFields'
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
+import { Button, Form} from 'semantic-ui-react'
+import './Login.css'
 
 const Login = ({handleLogin}) => {
 
@@ -35,14 +37,26 @@ const Login = ({handleLogin}) => {
 
     return (
         <div className="Login">
-            <h3 className="Login-heading">Sign Up</h3>
-            <form className="Login-form" onSubmit={handleSubmit}>
-                <label hmtlFor="username">Username</label>
-                <input name="username" type="text" onChange={handleChange} value={formData.username}/>
-                <label hmtlFor="password">Password</label>
-                <input name="password" type="password" onChange={handleChange} value={formData.password}/>
-                <button>Submit</button>  
-            </form>
+            <h3 className="Login-header">Login</h3>
+            <Form className="Login-form" onSubmit={handleSubmit}>
+            <Form.Input
+                    label="Username"
+                    type="text"
+                    name="username"
+                    onChange={handleChange}
+                    value={formData.username}
+                    fluid
+                />
+                <Form.Input
+                    label="Password"
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={formData.password}
+                    fluid
+                />
+              <Button primary type='submit'>Submit</Button>
+          </Form>
         </div>
     )
 

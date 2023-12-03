@@ -2,6 +2,8 @@ import React, {useEffect, useContext} from 'react';
 import useFields from '../../hooks/useFields'
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
+import { Button, Checkbox, Form, Container } from 'semantic-ui-react'
+import './Signup.css'
 
 const Signup = ({handleSignup}) => {
     
@@ -39,19 +41,29 @@ const Signup = ({handleSignup}) => {
     return (
         <div className="Signup">
             <h3 className="Signup-heading">Sign Up</h3>
-            <form className="Signup-form" onSubmit={handleSubmit}>
+            <Form className="Signup-form" onSubmit={handleSubmit}>
+              <Form.Field>
                 <label hmtlFor="username">Username</label>
                 <input name="username" type="text" onChange={handleChange} value={formData.username}/>
+              </Form.Field>
+              <Form.Field>
                 <label hmtlFor="password">Password</label>
                 <input name="password" type="password" onChange={handleChange} value={formData.password}/>
+              </Form.Field>
+              <Form.Field>
                 <label hmtlFor="firstName">First Name</label>
                 <input name="firstName" type="text" onChange={handleChange} value={formData.firstName}/>
+              </Form.Field>
+              <Form.Field>
                 <label hmtlFor="lastName">Last Name</label>
                 <input name="lastName" type="text" onChange={handleChange} value={formData.lastName}/>
+              </Form.Field>
+              <Form.Field>
                 <label hmtlFor="email">Email</label>
                 <input name="email" type="text" onChange={handleChange} value={formData.email}/>
-                <button>Submit</button>  
-            </form>
+              </Form.Field>
+              <Button primary type='submit'>Submit</Button>
+          </Form>
         </div>
     )
 

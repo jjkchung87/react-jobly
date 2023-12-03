@@ -4,6 +4,7 @@ import UserContext from '../../context/UserContext'
 import JoblyApi from "../../api";
 import SearchForm from '../../components/SearchForm';
 import JobCard from "../../components/JobCard";
+import './CompanyDetails.css';
 
 const CompanyDetails = () => {
     const [company, setCompany] = useState({});
@@ -46,8 +47,8 @@ const CompanyDetails = () => {
         <div className="CompanyDetails">
             {isLoading ? <p>Loading &hellip;</p> : (
                 <>
-                    <h3>{company.name}</h3>
-                    <div>{company.description}</div>
+                    <h3 className="CompanyDetails-header" >{company.name}</h3>
+                    <div className="CompanyDetails-description" >{company.description}</div>
                     {company.jobs && company.jobs.map(job => (
                         <JobCard
                             key={job.id}

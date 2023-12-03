@@ -1,0 +1,11 @@
+.CompanyList {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.CompanyList-container {
+    display: flex; /* This makes the container flexbox */
+    justify-content: center; /* This centers the cards horizontally */
+    flex-wrap: wrap; /* Allows cards to wrap to the next line */
+}
