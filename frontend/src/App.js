@@ -59,14 +59,6 @@ function App() {
 
 
   /******************************************************************************************************
-    Handle updating current user
-  *******************************************************************************************************/
-
-  const updateCurrentUser = (data) => {
-    setCurrentUser(data)
-  }
-
-  /******************************************************************************************************
     Check if has applied to job
   *******************************************************************************************************/
   function hasAppliedToJob(id) {
@@ -81,6 +73,7 @@ function App() {
     JoblyApi.applyToJob(currentUser.username, id);
     setApplicationIds(new Set([...applicationIds, id]));
   }
+  
   /******************************************************************************************************
    Handle Signup   
    *******************************************************************************************************/
@@ -133,7 +126,7 @@ function App() {
 
   return (
     <div className="App">
-      <UserContext.Provider value={{currentUser, updateCurrentUser, hasAppliedToJob, applyToJob}}>
+      <UserContext.Provider value={{currentUser, setCurrentUser, hasAppliedToJob, applyToJob}}>
         <NavBar handleLogout={handleLogout}/>
         <AppRoutes handleSignup={handleSignup} handleLogin={handleLogin} />
       </UserContext.Provider>

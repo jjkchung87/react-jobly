@@ -1,14 +1,15 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import useFields from '../../hooks/useFields'
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import { Button, Checkbox, Form, Container } from 'semantic-ui-react'
+import { Button, Checkbox, Form, Container, Message } from 'semantic-ui-react'
 import './Signup.css'
 
 const Signup = ({handleSignup}) => {
     
     const {currentUser} = useContext(UserContext)
     const navigate = useNavigate()
+    const [formErrors, setFormErrors] = useState([]);
     const initialValue = {
                             username:"harper",
                             firstName:"harper",
@@ -34,7 +35,7 @@ const Signup = ({handleSignup}) => {
         if (result.success) {
         navigate('/')
         } else {
-        resetFormData()
+        setFormErrors(result.errors);
         }
     }
 
@@ -62,6 +63,7 @@ const Signup = ({handleSignup}) => {
                 <label hmtlFor="email">Email</label>
                 <input name="email" type="text" onChange={handleChange} value={formData.email}/>
               </Form.Field>
+              {formErrors.length ? <Message color="red" content={formErrors} /> : null }
               <Button primary type='submit'>Submit</Button>
           </Form>
         </div>

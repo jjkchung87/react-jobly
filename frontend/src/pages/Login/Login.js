@@ -1,21 +1,32 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import useFields from '../../hooks/useFields'
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
-import { Button, Form} from 'semantic-ui-react'
+import { Button, Form, Message} from 'semantic-ui-react'
 import './Login.css'
 
 const Login = ({handleLogin}) => {
 
-    const {currentUser} = useContext(UserContext) // {username, firstName, lastName, email, isAdmin, applications}
+    const {currentUser} = useContext(UserContext) 
+    const [formErrors, setFormErrors] = useState([]);
     const navigate = useNavigate()
     const initialValue = {
-                            username:"harper",
-                            password:"harper123"
+                            username:"",
+                            password:""
                         }
 
     const [formData, handleChange, resetFormData ] = useFields(initialValue)
 
+  /******************************************************************************************************
+    Console log form data and form errors
+  *******************************************************************************************************/
+    console.debug(
+      "LoginForm",
+      "login=", typeof login,
+      "formData=", formData,
+      "formErrors", formErrors,
+  );
+  
   /******************************************************************************************************
     Handle redirecting to homepage if currentUser
   *******************************************************************************************************/
@@ -31,7 +42,7 @@ const Login = ({handleLogin}) => {
         if (result.success) {
         navigate('/')
         } else {
-        resetFormData()
+          setFormErrors(result.errors);
         }
     }
 
@@ -55,6 +66,9 @@ const Login = ({handleLogin}) => {
                     value={formData.password}
                     fluid
                 />
+                  {formErrors.length
+                    ? <Message color="red" content={formErrors} />
+                    : null}
               <Button primary type='submit'>Submit</Button>
           </Form>
         </div>

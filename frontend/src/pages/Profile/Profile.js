@@ -10,25 +10,38 @@ import { Button, Form, Message} from 'semantic-ui-react'
 const Profile = () => {
 
     const navigate = useNavigate()
-    const {currentUser, updateCurrentUser} = useContext(UserContext) // {username, firstName, lastName, email, isAdmin, applications}
+    const {currentUser, setCurrentUser} = useContext(UserContext) // {username, firstName, lastName, email, isAdmin, applications}
     const {firstName, lastName, email} = currentUser
     const [formData, handleChange] = useFields({firstName, lastName, email})
-    const [isHidden, setIsHidden] = useState(true)
+    const [submitted, setSubmitted] = useState(false)
+    const [formErrors, setFormErrors] = useState([])
 
   /******************************************************************************************************
-    Handle submitting profile form. Updates current user and displays alert.
+    Handle submitting profile form. Updates current user and displays message.
   *******************************************************************************************************/
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const res = await JoblyApi.updateCurrentUser(currentUser.username, formData)
-        setIsHidden(false)
-        updateCurrentUser(res)
+      e.preventDefault();
+      setSubmitted(false) // reset submitted to false
+      let res;
+      try{
+        res = await JoblyApi.updateCurrentUser(currentUser.username, formData)
+      } catch (errors) {
+        setFormErrors(errors)
+        return
+      }        
+        setSubmitted(true)
+        setCurrentUser(res)
+        setFormErrors([])
     }
+    
 
   /******************************************************************************************************
     Handle checking that currentUser exists. If so, redirect to homepage.
   *******************************************************************************************************/
-    useEffect(()=> {if(!currentUser) navigate("/")}) 
+    useEffect(()=> {
+      if(!currentUser) navigate("/")
+
+    }) 
 
 
     return(
@@ -59,7 +72,8 @@ const Profile = () => {
                     value={formData.email}
                     fluid
                 />
-                {isHidden ? null : <Message positive header='Profile Updated' />}
+                {submitted ? <Message positive header='Profile Updated' /> : null}
+                {formErrors.length ? <Message negative content={formErrors} /> : null }
                 <Button primary type='submit'>Submit</Button>
             </Form>
         </div>
